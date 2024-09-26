@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
       <RootProvider>
-        <div className="flex gap-20 ">
+        <div className="flex gap-20 flex-col md:flex-row">
           <BookList />
           <CheckoutList />
         </div>
