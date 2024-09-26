@@ -28,9 +28,7 @@ const BasketProvider: FC<props> = ({ children }) => {
       setBasket(basket.filter((item) => item.book.title !== order.book.title));
     } else {
       const newBasket = [...basket];
-      const index = newBasket.findIndex(
-        (item) => item.book.title === order.book.title
-      );
+      const index = newBasket.findIndex((item) => item.book.title === order.book.title);
       if (index === -1) {
         newBasket.push(order);
       } else {
@@ -41,10 +39,7 @@ const BasketProvider: FC<props> = ({ children }) => {
 
     const sorted = [...basket].sort((a, b) => b.quantity - a.quantity);
 
-    const sets: BookType[][] = Array.from(
-      { length: sorted[0]?.quantity },
-      () => []
-    );
+    const sets: BookType[][] = Array.from({ length: sorted[0]?.quantity }, () => []);
 
     sorted.forEach((item) => {
       let count = item.quantity;
@@ -60,12 +55,9 @@ const BasketProvider: FC<props> = ({ children }) => {
     sets.forEach((set) => {
       if (set.length > 1) {
         discount.push({
-          name: `${set.length}x get ${
-            discountMap[set.length as keyof typeof discountMap] * 100
-          }% off`,
+          name: `${set.length}x get ${discountMap[set.length as keyof typeof discountMap] * 100}% off`,
           discount:
-            set.reduce((acc, book) => acc + book.price, 0) *
-            discountMap[set.length as keyof typeof discountMap],
+            set.reduce((acc, book) => acc + book.price, 0) * discountMap[set.length as keyof typeof discountMap],
         });
       }
     });
@@ -78,9 +70,7 @@ const BasketProvider: FC<props> = ({ children }) => {
   };
 
   return (
-    <BasketContext.Provider
-      value={{ basket, setBasket, addToBasket, getTotalPrice, discounts }}
-    >
+    <BasketContext.Provider value={{ basket, setBasket, addToBasket, getTotalPrice, discounts }}>
       {children}
     </BasketContext.Provider>
   );

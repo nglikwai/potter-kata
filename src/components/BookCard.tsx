@@ -14,10 +14,7 @@ const BookCard = ({ book }: { book: BookType }) => {
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <div
-        style={{ backgroundColor: book.coverColor }}
-        className="w-full h-60 rounded-2xl p-4 max-w-44"
-      >
+      <div style={{ backgroundColor: book.coverColor }} className="w-full h-60 rounded-2xl p-4 max-w-44">
         <h2 className="text-white">{book.title}</h2>
       </div>
       <h3>{book.title}</h3>
