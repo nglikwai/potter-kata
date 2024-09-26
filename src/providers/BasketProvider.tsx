@@ -32,8 +32,6 @@ const BasketProvider: FC<props> = ({ children }) => {
         map[set.length] = (map[set.length] || 0) + 1;
       });
 
-    console.log(Object.entries(map));
-
     setDiscounts(
       Object.entries(map).map(([key, value]) => ({
         name: `Set of ${key} - ${discountMap[+key as keyof typeof discountMap] * 100}%off`,
