@@ -1,7 +1,7 @@
 import './App.css';
 import RootProvider from './providers/RootProvider';
 import BookList from './components/BookList';
-import CheckoutList from './components/CheckoutList';
+import CheckoutList from './components/CheckoutSession';
 
 function App() {
   return (

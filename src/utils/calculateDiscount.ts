@@ -35,7 +35,6 @@ export const calculateDiscountInDP = (books: number[]) => {
 // Method 2: Greedy & Two Pointer
 export const calculateDiscountInGreedy = (basket: number[]) => {
   basket.sort((a, b) => b - a);
-  console.log('basket', basket);
 
   const discountSet: number[][] = Array.from({ length: basket[0] }, () => []);
 

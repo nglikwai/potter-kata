@@ -1,9 +1,8 @@
-import { createContext, FC, useContext, useState } from 'react';
-import { BookType } from '../types/book.type';
+import { createContext, FC, useContext, useEffect, useState } from 'react';
 import { BasketType } from '../types/basket.type';
 import { DiscountType } from '../types/discount.type';
-import { discountMap } from '../constants/discount.constant';
 import { calculateDiscountInGreedy } from '../utils/calculateDiscount';
+import { discountMap } from '../constants/discount.constant';
 
 type props = {
   children: React.ReactNode;
@@ -21,8 +20,27 @@ const BasketContext = createContext<BasketContextType | undefined>(undefined);
 
 const BasketProvider: FC<props> = ({ children }) => {
   const [basket, setBasket] = useState<BasketType[]>([]);
-
   const [discounts, setDiscounts] = useState<DiscountType[]>([]);
+
+  useEffect(() => {
+    const discountSets = calculateDiscountInGreedy(basket.map((item) => item.quantity)).sets;
+    const map: { [key: number]: number } = {};
+
+    discountSets
+      .filter((i) => i.length > 1)
+      .forEach((set) => {
+        map[set.length] = (map[set.length] || 0) + 1;
+      });
+
+    console.log(Object.entries(map));
+
+    setDiscounts(
+      Object.entries(map).map(([key, value]) => ({
+        name: `Set of ${key} - ${discountMap[+key as keyof typeof discountMap] * 100}%off`,
+        count: value,
+      }))
+    );
+  }, [basket]);
 
   const addToBasket = (order: BasketType) => {
     if (order.quantity === 0) {
@@ -37,19 +55,6 @@ const BasketProvider: FC<props> = ({ children }) => {
       }
       setBasket(newBasket);
     }
-
-    const discountSets = calculateDiscountInGreedy(basket.map((item) => item.quantity)).sets;
-
-    setDiscounts(
-      discountSets.map((set) => {
-        const discount = 1 - (discountMap[set.length as keyof typeof discountMap] || 0);
-        return {
-          name: `Set of ${set.length}`,
-          discount: discount,
-          price: set.length * 8 * discount,
-        };
-      })
-    );
   };
 
   const getTotalPrice = () => {
