@@ -1,6 +1,6 @@
-import { FC } from "react";
-import { useBasket } from "../providers/BasketProvider";
-import CheckoutItem from "./CheckoutItem";
+import { FC } from 'react';
+import { useBasket } from '../providers/BasketProvider';
+import CheckoutItem from './CheckoutItem';
 
 const CheckoutList: FC = () => {
   const { basket, getTotalPrice, discounts } = useBasket();

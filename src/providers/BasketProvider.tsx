@@ -1,8 +1,8 @@
-import { createContext, FC, useContext, useState } from "react";
-import { BookType } from "../types/book.type";
-import { BasketType } from "../types/basket.type";
-import { DiscountType } from "../types/discount.type";
-import { discountMap } from "../constants/discount.constant";
+import { createContext, FC, useContext, useState } from 'react';
+import { BookType } from '../types/book.type';
+import { BasketType } from '../types/basket.type';
+import { DiscountType } from '../types/discount.type';
+import { discountMap } from '../constants/discount.constant';
 
 type props = {
   children: React.ReactNode;
@@ -91,7 +91,7 @@ export default BasketProvider;
 export const useBasket = () => {
   const context = useContext(BasketContext);
   if (context === undefined) {
-    throw new Error("useBasket must be used within a BasketProvider");
+    throw new Error('useBasket must be used within a BasketProvider');
   }
   return context;
 };

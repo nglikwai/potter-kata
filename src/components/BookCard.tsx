@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { BookType } from "../types/book.type";
-import { Stepper } from "baseui/stepper";
-import { useBasket } from "../providers/BasketProvider";
+import { useEffect, useState } from 'react';
+import { BookType } from '../types/book.type';
+import { Stepper } from 'baseui/stepper';
+import { useBasket } from '../providers/BasketProvider';
 
 const BookCard = ({ book }: { book: BookType }) => {
   const [value, setValue] = useState(0);

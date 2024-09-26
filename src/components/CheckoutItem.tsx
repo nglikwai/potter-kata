@@ -1,4 +1,4 @@
-import { BasketType } from "../types/basket.type";
+import { BasketType } from '../types/basket.type';
 
 const CheckoutItem = ({ item }: { item: BasketType }) => {
   return (
