@@ -3,6 +3,7 @@ import { BookType } from '../types/book.type';
 import { BasketType } from '../types/basket.type';
 import { DiscountType } from '../types/discount.type';
 import { discountMap } from '../constants/discount.constant';
+import { calculateDiscountInGreedy } from '../utils/calculateDiscount';
 
 type props = {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ type BasketContextType = {
   basket: BasketType[];
   setBasket: (basket: BasketType[]) => void;
   addToBasket: (book: BasketType) => void;
-  getTotalPrice: () => number;
+  getTotalPrice: () => string;
   discounts: DiscountType[];
 };
 
@@ -37,36 +38,25 @@ const BasketProvider: FC<props> = ({ children }) => {
       setBasket(newBasket);
     }
 
-    const sorted = [...basket].sort((a, b) => b.quantity - a.quantity);
+    const discountSets = calculateDiscountInGreedy(basket.map((item) => item.quantity)).sets;
 
-    const sets: BookType[][] = Array.from({ length: sorted[0]?.quantity }, () => []);
-
-    sorted.forEach((item) => {
-      let count = item.quantity;
-
-      while (count > 0) {
-        sets[count - 1].push(item.book);
-        count--;
-      }
-    });
-
-    const discount: DiscountType[] = [];
-
-    sets.forEach((set) => {
-      if (set.length > 1) {
-        discount.push({
-          name: `${set.length}x get ${discountMap[set.length as keyof typeof discountMap] * 100}% off`,
-          discount:
-            set.reduce((acc, book) => acc + book.price, 0) * discountMap[set.length as keyof typeof discountMap],
-        });
-      }
-    });
-
-    setDiscounts(discount);
+    setDiscounts(
+      discountSets.map((set) => {
+        const discount = 1 - (discountMap[set.length as keyof typeof discountMap] || 0);
+        return {
+          name: `Set of ${set.length}`,
+          discount: discount,
+          price: set.length * 8 * discount,
+        };
+      })
+    );
   };
 
   const getTotalPrice = () => {
-    return 0;
+    const sets = basket.map((item) => item.quantity);
+    if (sets.length === 0) return '0';
+
+    return calculateDiscountInGreedy(sets).totalPrice;
   };
 
   return (
