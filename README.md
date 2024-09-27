@@ -10,7 +10,19 @@ When designing the discount application solution, both the **Greedy algorithm** 
 
 In the project directory, you can run:
 
-### `npm start`
+### Install Dependencies
+
+To install the required packages for the project, run the following command:
+
+```bash
+npm install
+```
+
+### Run the Application
+
+```bash
+`npm start`
+```
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
