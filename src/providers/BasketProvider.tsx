@@ -14,6 +14,8 @@ type BasketContextType = {
   addToBasket: (book: BasketType) => void;
   getTotalPrice: () => string;
   discounts: DiscountType[];
+  reset: boolean;
+  clear: () => void;
 };
 
 const BasketContext = createContext<BasketContextType | undefined>(undefined);
@@ -21,6 +23,7 @@ const BasketContext = createContext<BasketContextType | undefined>(undefined);
 const BasketProvider: FC<props> = ({ children }) => {
   const [basket, setBasket] = useState<BasketType[]>([]);
   const [discounts, setDiscounts] = useState<DiscountType[]>([]);
+  const [reset, setReset] = useState(false);
 
   useEffect(() => {
     const discountSets = calculateDiscountInGreedy(basket.map((item) => item.quantity)).sets;
@@ -55,6 +58,11 @@ const BasketProvider: FC<props> = ({ children }) => {
     }
   };
 
+  const clear = () => {
+    setReset((prev) => !prev);
+    setBasket([]);
+  };
+
   const getTotalPrice = () => {
     const sets = basket.map((item) => item.quantity);
     if (sets.length === 0) return '0';
@@ -63,7 +71,7 @@ const BasketProvider: FC<props> = ({ children }) => {
   };
 
   return (
-    <BasketContext.Provider value={{ basket, setBasket, addToBasket, getTotalPrice, discounts }}>
+    <BasketContext.Provider value={{ basket, setBasket, addToBasket, getTotalPrice, discounts, clear, reset }}>
       {children}
     </BasketContext.Provider>
   );
