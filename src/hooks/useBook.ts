@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { BookType } from '../types/book.type';
 
 export const useBook = () => {
-  const [books, setBooks] = useState<BookType[]>(booksData);
+  const [books] = useState<BookType[]>(booksData);
   return {
     books,
   };
