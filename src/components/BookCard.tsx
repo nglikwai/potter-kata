@@ -6,11 +6,13 @@ import { useBasket } from '../providers/BasketProvider';
 const BookCard = ({ book }: { book: BookType }) => {
   const [value, setValue] = useState(0);
 
-  const { addToBasket, reset } = useBasket();
+  const { addToBasket, reset, setReset } = useBasket();
 
   useEffect(() => {
-    setValue(0);
-  }, [reset]);
+    if (reset) {
+      setValue(0);
+    }
+  }, [reset, setReset]);
 
   const onStepperClick = (newValue: number) => {
     setValue(newValue);

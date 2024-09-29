@@ -16,6 +16,7 @@ type BasketContextType = {
   discounts: DiscountType[];
   reset: boolean;
   clear: () => void;
+  setReset: (reset: boolean) => void;
 };
 
 const BasketContext = createContext<BasketContextType | undefined>(undefined);
@@ -43,6 +44,13 @@ const BasketProvider: FC<props> = ({ children }) => {
     );
   }, [basket]);
 
+  useEffect(() => {
+    // reset the 'reset' state
+    if (!reset) {
+      setReset(false);
+    }
+  }, [reset, setReset]);
+
   const addToBasket = (order: BasketType) => {
     if (order.quantity === 0) {
       setBasket(basket.filter((item) => item.book.title !== order.book.title));
@@ -59,7 +67,7 @@ const BasketProvider: FC<props> = ({ children }) => {
   };
 
   const clear = () => {
-    setReset((prev) => !prev);
+    setReset(true);
     setBasket([]);
   };
 
@@ -71,7 +79,9 @@ const BasketProvider: FC<props> = ({ children }) => {
   };
 
   return (
-    <BasketContext.Provider value={{ basket, setBasket, addToBasket, getTotalPrice, discounts, clear, reset }}>
+    <BasketContext.Provider
+      value={{ basket, setBasket, addToBasket, getTotalPrice, discounts, clear, reset, setReset }}
+    >
       {children}
     </BasketContext.Provider>
   );
